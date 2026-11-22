@@ -15,16 +15,27 @@ app.get("/", (req, res) => {
 
 // Get a random fun fact
 app.get("/api/fun-fact", async (req, res) => {
-  // Request a fact from the external API
-  const response = await axios.get(
-    "https://uselessfacts.jsph.pl/api/v2/facts/random"
-  );
+  try {
+    // Request a fact from the external API
+    const response = await axios.get(
+      "https://uselessfacts.jsph.pl/api/v2/facts/random"
+    );
 
-  // Extract only the fact text
-const factText = response.data.text;
+    // Extract only the fact text
+    const factText = response.data.text;
 
-// Send a simplified JSON response
-res.json({ fact: factText });
+    // Send a simplified JSON response
+    res.json({ fact: factText });
+
+  } catch (error) {
+    // Log the error for debugging
+    console.error("Error fetching fun fact:", error.message);
+
+    // Send a generic error response
+    res.status(500).json({
+      error: "Could not fetch fun fact"
+    });
+  }
 });
 
 // Start the server
