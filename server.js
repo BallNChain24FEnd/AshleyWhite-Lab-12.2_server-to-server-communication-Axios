@@ -20,8 +20,11 @@ app.get("/api/fun-fact", async (req, res) => {
     "https://uselessfacts.jsph.pl/api/v2/facts/random"
   );
 
-  // Temporarily return the full API response data
-  res.json(response.data);
+  // Extract only the fact text
+const factText = response.data.text;
+
+// Send a simplified JSON response
+res.json({ fact: factText });
 });
 
 // Start the server
